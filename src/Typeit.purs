@@ -63,8 +63,7 @@ module Typeit
   , typeit
   , typeitGo
   , waitUntilVisible
-  )
-  where
+  ) where
 
 import Prelude
 
@@ -101,18 +100,18 @@ animationKeyFrameEasing :: Opt.Option AnimationKeyFrame (String |+| Array String
 animationKeyFrameEasing = Opt.opt "easing"
 
 offset :: Opt.Option AnimationKeyFrame (Either Number (Array (Maybe Number)))
-offset = cmap
-  ( \i -> case i of
-      Left n -> asOneOf n :: Number |+| Array (Nullable Number)
-      Right x -> asOneOf $ map toNullable x
-  ) $ Opt.opt  "offset"
+offset =
+  cmap
+    ( \i -> case i of
+        Left n -> asOneOf n :: Number |+| Array (Nullable Number)
+        Right x -> asOneOf $ map toNullable x
+    ) $ Opt.opt "offset"
 
 opacity :: Opt.Option AnimationKeyFrame (Number |+| Array Number)
 opacity = Opt.opt "opacity"
 
 frames :: Opt.Option CursorAnimationOptions (Array (Opt.Options AnimationKeyFrame))
 frames = Opt.opt "frames"
-
 
 newtype AnimationEffectTimingPlaybackDirection = AnimationEffectTimingPlaybackDirection String
 newtype AnimationEffectTimingFillMode = AnimationEffectTimingFillMode String

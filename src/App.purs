@@ -5,6 +5,7 @@ import Prelude
 import AnswerContainer (answerContainer)
 import Control (SetSubmit)
 import Data.Maybe (Maybe, isJust)
+import Data.Options as Opt
 import Data.Tuple.Nested ((/\))
 import Deku.Core (Nut, useState, useState')
 import Deku.DOM as D
@@ -14,25 +15,35 @@ import Effect (Effect)
 import FRP.Poll (Poll)
 import QuestionContainer (questionContainer)
 import RecordingModal (recordingModal)
-import Web.HTML (HTMLDivElement, HTMLSpanElement)
+import Typeit (TypeitOptions)
 
 app
   :: { questionHint :: Poll (Maybe String)
-     , setAnswerSpan :: HTMLSpanElement -> Effect Unit
-     , setTypingDiv :: HTMLDivElement -> Effect Unit
+     , focusAnswerSpan :: Poll Unit
+     , clearAnswerSpan :: Poll Unit
+     , typeMe :: Poll (Opt.Options TypeitOptions)
      , submitIs :: Poll SetSubmit
      , setAnswerText :: String -> Effect Unit
      , answerText :: Poll String
      }
   -> Nut
-app { questionHint, setTypingDiv, setAnswerSpan, submitIs, setAnswerText, answerText } = Deku.do
+app
+  { questionHint
+  , typeMe
+  , focusAnswerSpan
+  , clearAnswerSpan
+  , submitIs
+  , setAnswerText
+  , answerText
+  } = Deku.do
   setRecordingModalOpen /\ recordingModalOpen <- useState false
   setMediaRecorder /\ mediaRecorder <- useState'
   D.div
     [ DA.klass_ "flex flex-col md:flex-row h-screen" ]
-    [ questionContainer { setTypingDiv, questionHint }
+    [ questionContainer { typeMe, questionHint }
     , answerContainer
-        { setAnswerSpan
+        { focusAnswerSpan
+        , clearAnswerSpan
         , setRecordingModalOpen
         , setMediaRecorder
         , submitIs

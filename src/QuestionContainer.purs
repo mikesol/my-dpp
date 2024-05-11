@@ -4,21 +4,21 @@ import Prelude
 
 import Data.Compactable (compact)
 import Data.Maybe (Maybe, isJust)
+import Data.Options as Opt
 import Deku.Control (text, text_)
 import Deku.Core (Nut)
 import Deku.DOM as D
 import Deku.DOM.Attributes as DA
 import Deku.DOM.Self as Self
-import Effect (Effect)
 import FRP.Poll (Poll)
-import Web.HTML (HTMLDivElement)
+import Typeit (TypeitOptions, typeitGo)
 
 questionContainer
   :: { questionHint :: Poll (Maybe String)
-     , setTypingDiv :: HTMLDivElement -> Effect Unit
+     , typeMe :: Poll (Opt.Options TypeitOptions)
      }
   -> Nut
-questionContainer { setTypingDiv, questionHint } = Deku.do
+questionContainer { typeMe, questionHint } = Deku.do
   D.div
     [ DA.klass_ "flex-1 flex flex-col h-full overflow-auto bg-gray-200 p-4"
     ]
@@ -28,9 +28,7 @@ questionContainer { setTypingDiv, questionHint } = Deku.do
         [ D.div
             [ DA.contenteditable_ "true"
             , DA.klass_ "text-2xl text-gray-700"
-            , Self.selfT_
-                ( setTypingDiv :: HTMLDivElement -> Effect Unit
-                )
+            , Self.self $ typeMe <#> flip typeitGo
             ]
             []
         , D.div

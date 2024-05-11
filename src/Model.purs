@@ -17,6 +17,8 @@ newtype TextOrVoice = TextOrVoice (Either String Blob)
 data FromController
   = StartFromBeginning
   | AnswerCompanyName { name :: String }
-  -- | AnswerVerifiedCompanyName { name :: String, isCorrect :: Boolean }
-  -- | AnswerDescribedProduct { name :: String, description :: TextOrVoice }
-  -- | AnswerWillStartNow { name :: String, description :: String, isStartingNow :: Boolean }
+  | TestTextOrAudio
+  | TestTwoButtons
+-- | AnswerVerifiedCompanyName { name :: String, isCorrect :: Boolean }
+-- | AnswerDescribedProduct { name :: String, description :: TextOrVoice }
+-- | AnswerWillStartNow { name :: String, description :: String, isStartingNow :: Boolean }

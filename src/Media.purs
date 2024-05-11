@@ -14,7 +14,6 @@ foreign import getUserMediaImpl :: Navigator -> Effect (Promise MediaStream)
 getUserMedia :: Navigator -> Aff MediaStream
 getUserMedia = map toAffE getUserMediaImpl
 
-
 data MediaRecorder
 
 foreign import mediaRecorder :: MediaStream -> (String -> Effect Unit) -> Effect Unit -> Effect MediaRecorder
