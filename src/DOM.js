@@ -1,0 +1,1 @@
+export const clearHTML = (e) => () => { e.innerHTML = ""; }
